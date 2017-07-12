@@ -43,7 +43,7 @@ public class XoreBoardPlayerSidebar {
 
     public void putLines(HashMap<String, Integer> lines) {
         this.lines.forEach((key, value) -> {
-            if(lines.get(key) != null && lines.get(key).equals(value))
+            if(lines.containsKey(key) && lines.get(key).equals(value))
                 lines.remove(key);
         });
         lines.forEach((key, value) -> XoreBoardPackets.sendPacket(player, getLinePacket(xoreBoard.getId() + ":" + player.getEntityId(), ChatColor.translateAlternateColorCodes('&', key), value, XoreBoardPackets.EnumScoreboardAction.CHANGE)));
@@ -53,11 +53,11 @@ public class XoreBoardPlayerSidebar {
     public void rewriteLines(HashMap<String, Integer> lines) {
         HashMap<String, Integer> tmpLines = new HashMap<>(this.lines);
         tmpLines.forEach((key, value) -> {
-            if(lines.get(key) == null)
+            if(!lines.containsKey(key))
                 clearLine(key);
         });
         lines.forEach((key, value) -> {
-            if(this.lines.get(key) == null || !this.lines.get(key).equals(value))
+            if(!this.lines.containsKey(key) || !this.lines.get(key).equals(value))
                 putLine(key, value);
         });
     }

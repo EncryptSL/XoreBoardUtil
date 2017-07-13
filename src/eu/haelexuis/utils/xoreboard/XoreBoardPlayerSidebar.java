@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static eu.haelexuis.utils.xoreboard.XoreBoardPackets.getDisplayNamePacket;
 import static eu.haelexuis.utils.xoreboard.XoreBoardPackets.getLinePacket;
@@ -12,7 +13,7 @@ import static eu.haelexuis.utils.xoreboard.XoreBoardPackets.getSidebarPacket;
 public class XoreBoardPlayerSidebar {
     private final XoreBoard xoreBoard;
     private final Player player;
-    private HashMap<String, Integer> lines = new HashMap<>();
+    private ConcurrentHashMap<String, Integer> lines = new ConcurrentHashMap<>();
     private String displayName;
     private boolean showedGlobalSidebar = false;
     private boolean showedPrivateSidebar = false;
@@ -51,8 +52,7 @@ public class XoreBoardPlayerSidebar {
     }
 
     public void rewriteLines(HashMap<String, Integer> lines) {
-        HashMap<String, Integer> tmpLines = new HashMap<>(this.lines);
-        tmpLines.forEach((key, value) -> {
+        this.lines.forEach((key, value) -> {
             if(!lines.containsKey(key))
                 clearLine(key);
         });
@@ -77,15 +77,10 @@ public class XoreBoardPlayerSidebar {
         if(showedPrivateSidebar) {
             showedPrivateSidebar = false;
             XoreBoardPackets.sendPacket(player, getSidebarPacket(xoreBoard.getId() + ":" + player.getEntityId(), displayName, 1));
+            return;
         }
-        else {
-            showSidebar();
-            hideSidebar();
-        }
-    }
-
-    public HashMap<String, Integer> getLines() {
-        return lines;
+        showSidebar();
+        hideSidebar();
     }
 
     public void showSidebar() {
@@ -94,11 +89,14 @@ public class XoreBoardPlayerSidebar {
             XoreBoardPackets.sendPacket(player, getSidebarPacket(xoreBoard.getId() + ":" + player.getEntityId(), displayName, 0));
             XoreBoardPackets.sendPacket(player, getDisplayNamePacket(xoreBoard.getId() + ":" + player.getEntityId()));
             this.lines.forEach((key, value) -> XoreBoardPackets.sendPacket(player, getLinePacket(xoreBoard.getId() + ":" + player.getEntityId(), ChatColor.translateAlternateColorCodes('&', key), value, XoreBoardPackets.EnumScoreboardAction.CHANGE)));
+            return;
         }
-        else {
-            hideSidebar();
-            showSidebar();
-        }
+        hideSidebar();
+        showSidebar();
+    }
+
+    public HashMap<String, Integer> getLines() {
+        return new HashMap<>(lines);
     }
 
     public boolean isShowedGlobalSidebar() {

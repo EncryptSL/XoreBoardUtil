@@ -2,7 +2,7 @@
 
 Supported minecraft versions: 1.8, 1.9, 1.10, 1.11, 1.12 (and maybe below, because I used reflection)
 
-[Example usage](https://github.com/haelexuis/XoreBoardUtil/wiki/Examples)
+[Example usage](https://github.com/haelexuis/XoreBoardUtil/wiki/Usage)
 
 **Features:**
 * Easy sidebar manipulation.

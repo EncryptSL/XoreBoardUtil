@@ -8,14 +8,14 @@ Supported minecraft versions: 1.8, 1.9, 1.10, 1.11, 1.12 (and maybe below, becau
 * Easy sidebar manipulation.
 * Ability to use 1 scoreboard and set different sidebars to each player, or shared (global) sidebar.
 * Player collisions disabled by default.
+* Always visible team prefixes and below names for everyone, no matter in which Scoreboard (XoreBoard) player is.
 * You can set Below Names, such as "&c❤", and set health value to specific player.
 * All server players are in 1 real Bukkit Scoreboard, where you can create a teams (ranks, etc.).
 * Ability to hide/show sidebar for each player in XoreBoard.
 * Player can be in multiple Scoreboards (XoreBoards) at the same time, depends which one are you updating.
-* Always visible team prefixes and below name for everyone and everytime, https://cdn.pbrd.co/images/GAmevQn.png.
 * Whole code can be used in async threads.
 * Color codes, such as &b, supported by default.
-* Based on packets, and util can be used by multiple plugins at the time.
+* Based on packets, and util can be used by multiple plugins at the same time.
 * Prevent client kicking/crashing (if you set some text really long)
 
 **Known bugs:**

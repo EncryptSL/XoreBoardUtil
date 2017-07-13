@@ -19,4 +19,6 @@ Supported minecraft versions: 1.8, 1.9, 1.10, 1.11, 1.12 (and maybe below, becau
 * Prevent client kicking/crashing (if you set some text really long)
 
 **Known bugs:**
-* When you disable global collisions, mob collisions will be disabled as well, so if you have Survival/SkyBlock server, it can cause problem with mob pushing, so I recommend use XoreBoardUtil.setGlobalCollisions(Team.OptionStatus.FOR_OWN_TEAM) instead of XoreBoardUtil.setGlobalCollisions(Team.OptionStatus.NEVER) after server start, if you need mob pushing. Then will be collisions only between Teams, such as ADMIN -> VIP.. of course, if you don't have all players in 1 team.
+* When you disable global collisions, mob collisions will be disabled as well, so if you have Survival/SkyBlock server, it can cause problem with mob pushing, so I recommend use XoreBoardUtil.setGlobalCollisions(Team.OptionStatus.FOR_OWN_TEAM) instead of XoreBoardUtil.setGlobalCollisions(Team.OptionStatus.NEVER) after server start, if you need mob pushing. Then will be collisions only between teams.
+
+**Credits: [@siOnzee](https://github.com/sionzeecz) (packet reflection)**

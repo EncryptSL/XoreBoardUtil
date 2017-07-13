@@ -60,7 +60,7 @@ public class XoreBoard {
     }
 
     public void removePlayer(Player p) {
-        getSidebar(p).clearLines();
+        getSidebar().hideSidebar(p);
         getSidebar(p).hideSidebar();
         if(players.containsKey(p))
             players.remove(p);

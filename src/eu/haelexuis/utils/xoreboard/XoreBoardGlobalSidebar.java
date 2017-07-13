@@ -76,22 +76,35 @@ public class XoreBoardGlobalSidebar {
     }
 
     public void hideSidebar() {
-        for(Player p : xoreBoard.getPlayers()) {
-            XoreBoardPackets.sendPacket(p, getSidebarPacket(xoreBoard.getId() + "." + p.getEntityId(), displayName, 1));
-            xoreBoard.getSidebar(p).setShowedGlobalSidebar(false);
-        }
+        xoreBoard.getPlayers().forEach(this::hideSidebar);
     }
 
-    public void hideForPlayer(Player p) {
-        XoreBoardPackets.sendPacket(p, getSidebarPacket(xoreBoard.getId() + "." + p.getEntityId(), displayName, 1));
-        xoreBoard.getSidebar(p).setShowedGlobalSidebar(false);
+    public void hideSidebar(Player p) {
+        boolean showedGlobalSidebar = xoreBoard.getSidebar(p).isShowedGlobalSidebar();
+        if(showedGlobalSidebar) {
+            xoreBoard.getSidebar(p).setShowedGlobalSidebar(false);
+            XoreBoardPackets.sendPacket(p, getSidebarPacket(xoreBoard.getId() + "." + p.getEntityId(), displayName, 1));
+            return;
+        }
+        showSidebar(p);
+        hideSidebar(p);
+    }
+
+    public void showSidebar() {
+        xoreBoard.getPlayers().forEach(this::showSidebar);
     }
 
     public void showSidebar(Player p) {
-        xoreBoard.getEntries().get(p).setShowedGlobalSidebar(true);
-        XoreBoardPackets.sendPacket(p, getSidebarPacket(xoreBoard.getId() + "." + p.getEntityId(), displayName, 0));
-        XoreBoardPackets.sendPacket(p, getDisplayNamePacket(xoreBoard.getId() + "." + p.getEntityId()));
-        lines.forEach((key, value) -> XoreBoardPackets.sendPacket(p, getLinePacket(xoreBoard.getId() + "." + p.getEntityId(), ChatColor.translateAlternateColorCodes('&', key), value, XoreBoardPackets.EnumScoreboardAction.CHANGE)));
+        boolean showedGlobalSidebar = xoreBoard.getSidebar(p).isShowedGlobalSidebar();
+        if(!showedGlobalSidebar) {
+            xoreBoard.getEntries().get(p).setShowedGlobalSidebar(true);
+            XoreBoardPackets.sendPacket(p, getSidebarPacket(xoreBoard.getId() + "." + p.getEntityId(), displayName, 0));
+            XoreBoardPackets.sendPacket(p, getDisplayNamePacket(xoreBoard.getId() + "." + p.getEntityId()));
+            lines.forEach((key, value) -> XoreBoardPackets.sendPacket(p, getLinePacket(xoreBoard.getId() + "." + p.getEntityId(), ChatColor.translateAlternateColorCodes('&', key), value, XoreBoardPackets.EnumScoreboardAction.CHANGE)));
+            return;
+        }
+        hideSidebar(p);
+        showSidebar(p);
     }
 
     public HashMap<String, Integer> getLines() {
